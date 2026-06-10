@@ -80,9 +80,11 @@ function ImageAdSlot({ item, placeholderLabel, isPage }: { item: SelfServeAdItem
           />
         ) : null}
       </div>
-      <div className="border-t border-border/70 px-3 py-2 text-[11px] text-muted-foreground">
-        {formatExpiryText(item)}
-      </div>
+      {isPage ? (
+        <div className="border-t border-border/70 px-3 py-2 text-[11px] text-muted-foreground">
+          {formatExpiryText(item)}
+        </div>
+      ) : null}
     </a>
   )
 }
@@ -113,7 +115,7 @@ function TextAdSlot({ item, placeholderLabel, isPage }: { item: SelfServeAdItem;
       style={{ color: item.textColor ?? "#0f172a", backgroundColor: item.backgroundColor ?? "#f8fafc" }}
     >
       <span className={isPage ? "break-words text-sm font-medium" : "block truncate text-[11px] font-medium"}>{item.title}</span>
-      <span className={isPage ? "mt-3 block text-xs opacity-75" : "mt-1 block truncate text-[10px] opacity-75"}>{formatExpiryText(item)}</span>
+      {isPage ? <span className="mt-3 block text-xs opacity-75">{formatExpiryText(item)}</span> : null}
     </a>
   )
 }
