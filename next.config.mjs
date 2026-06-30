@@ -26,6 +26,7 @@ const nextConfig = {
   } : {}),
   reactStrictMode: true,
   productionBrowserSourceMaps:false,
+  output: "standalone",
   allowedDevOrigins: ['3000-e2a88708dbbfa4a7.monkeycode-ai.online', '.monkeycode-ai.online'],
   typescript: {
     ignoreBuildErrors: isProductionBuild,

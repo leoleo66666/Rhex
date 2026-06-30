@@ -1,64 +1,88 @@
-ARG NEXT_ASSET_PREFIX="https://rhex-runtime-asset-prefix.invalid"
-ARG NEXT_DEPLOYMENT_ID
-
-FROM node:20-bookworm-slim AS base
-
-ENV PNPM_HOME=/pnpm
-ENV PATH=$PNPM_HOME:$PATH
-ENV NEXT_TELEMETRY_DISABLED=1
-
-RUN corepack enable \
-  && corepack prepare pnpm@10.33.4 --activate \
-  && apt-get update \
-  && apt-get install -y --no-install-recommends ca-certificates openssl \
-  && rm -rf /var/lib/apt/lists/*
-
+# ---- Stage 1: Dependencies ----
+FROM node:22-alpine AS deps
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-FROM base AS builder
+# Install pnpm
+RUN corepack enable && corepack prepare pnpm@10.33.4 --activate
 
-ARG NEXT_ASSET_PREFIX
-ARG NEXT_DEPLOYMENT_ID
-ENV NEXT_ASSET_PREFIX=${NEXT_ASSET_PREFIX}
-ENV NEXT_DEPLOYMENT_ID=${NEXT_DEPLOYMENT_ID}
+COPY package.json pnpm-lock.yaml .npmrc* ./
+RUN pnpm fetch --prod
+RUN pnpm install --offline --prod --frozen-lockfile
 
-RUN mkdir -p addons
+# ---- Stage 2: Builder ----
+FROM node:22-alpine AS builder
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
 
-COPY package.json pnpm-lock.yaml .npmrc ./
-COPY prisma ./prisma
+RUN corepack enable && corepack prepare pnpm@10.33.4 --activate
 
-RUN pnpm install --frozen-lockfile
+COPY package.json pnpm-lock.yaml .npmrc* ./
+RUN pnpm fetch
+RUN pnpm install --offline --frozen-lockfile
 
 COPY . .
 
-RUN pnpm run prisma:generate
+# Generate Prisma client
+RUN npx prisma generate
+
+# Build Next.js (standalone output)
+ENV NODE_ENV=production
 RUN pnpm run build
 
-FROM base AS runner
-
-ENV NODE_ENV=production
+# ---- Stage 3: Runner ----
+FROM node:22-alpine AS runner
+RUN apk add --no-cache \
+    cairo \
+    pango \
+    pixman \
+    libjpeg-turbo \
+    giflib \
+    librsvg \
+    curl
 
 WORKDIR /app
 
-LABEL org.opencontainers.image.source="https://github.com/lovedevpanda/Rhex"
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN mkdir -p uploads addons
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
 
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/addons ./addons
-COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/next.config.mjs ./next.config.mjs
-COPY --from=builder /app/prisma ./prisma
+# Copy standalone output
+COPY --from=builder /app/.next/standalone ./
+
+# Copy static assets
+COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/scripts ./scripts
-COPY --from=builder /app/src ./src
-COPY --from=builder /app/tsconfig.json ./tsconfig.json
-COPY --from=builder /app/write-guard.config.ts ./write-guard.config.ts
 
-RUN chmod +x ./scripts/docker-entrypoint.sh
+# Copy uploads (user-uploaded files)
+COPY --from=builder /app/uploads ./uploads
+
+# Copy Prisma schema
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+
+# Copy scripts (needed for setup/worker)
+COPY --from=builder /app/scripts ./scripts
+COPY --from=builder /app/tsconfig.json ./tsconfig.json
+
+# Copy tsx for worker
+COPY --from=builder /app/node_modules/.pnpm/tsx@* /tmp/tsx/
+RUN cp -r /tmp/tsx/*/node_modules/tsx ./node_modules/.pnpm/tsx 2>/dev/null; \
+    mkdir -p ./node_modules/.pnpm/get-tsconfig@* 2>/dev/null; \
+    mkdir -p ./node_modules/.pnpm/@esbuild+* 2>/dev/null; \
+    true
+# tsx is a devDependency but needed for worker; install it
+RUN npm install -g tsx
+
+USER nextjs
 
 EXPOSE 3000
 
-ENTRYPOINT ["/app/scripts/docker-entrypoint.sh"]
-CMD ["pnpm", "run", "start"]
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+COPY docker-entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["web"]

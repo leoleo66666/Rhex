@@ -1,138 +1,89 @@
-x-app-environment: &app-environment
-  DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-bbs}?schema=public
-  REDIS_URL: redis://redis:6379
-  REDIS_PASSWORD: ${REDIS_PASSWORD:-}
-  REDIS_DB: ${REDIS_DB:-}
-
-x-app-service: &app-service
-  image: ghcr.io/lovedevpanda/rhex:latest
-  pull_policy: always
-  init: true
-  env_file:
-    - .env
-  volumes:
-    - ./uploads:/app/uploads
-    - ./addons:/app/addons
-
 services:
   postgres:
-    image: postgres:18
+    image: postgres:15-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-bbs}
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      TZ: ${TZ:-Asia/Shanghai}
-    ports:
-      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+      POSTGRES_DB: bbs
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     volumes:
-      - postgres_data:/var/lib/postgresql
+      - pgdata:/var/lib/postgresql/data
     healthcheck:
-      # Use TCP readiness so dependent containers don't start while initdb's socket-only server is running.
-      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-bbs}"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d bbs"]
       interval: 10s
       timeout: 5s
-      retries: 10
-      start_period: 10s
+      retries: 5
 
   redis:
-    image: redis:latest
+    image: redis:7-alpine
     restart: unless-stopped
-    command:
-      - sh
-      - -c
-      - |
-        set -eu
-        if [ -n "$${REDIS_PASSWORD:-}" ]; then
-          exec redis-server --appendonly yes --requirepass "$${REDIS_PASSWORD}"
-        fi
-        exec redis-server --appendonly yes
-    environment:
-      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
-    ports:
-      - "127.0.0.1:${REDIS_PORT:-6379}:6379"
     volumes:
-      - redis_data:/data
+      - redisdata:/data
     healthcheck:
-      test: ["CMD-SHELL", "if [ -n \"$${REDIS_PASSWORD:-}\" ]; then redis-cli -a \"$${REDIS_PASSWORD}\" --no-auth-warning ping; else redis-cli ping; fi"]
+      test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 5s
-      retries: 10
-      start_period: 5s
+      retries: 5
 
   setup:
-    <<: *app-service
-    restart: on-failure
-    environment: *app-environment
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    command: ["pnpm", "run", "setup:prod"]
-
-  postgres-backup:
-    image: postgres:18
-    profiles:
-      - backup
+    build: .
     restart: "no"
+    command: setup
     depends_on:
       postgres:
         condition: service_healthy
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-bbs}
-      POSTGRES_USER: ${POSTGRES_USER:-postgres}
-      PGPASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      TZ: ${TZ:-Asia/Shanghai}
-    volumes:
-      - ./backups:/backups
-    command:
-      - sh
-      - -c
-      - |
-        set -eu
-        mkdir -p /backups
-        pg_dump -h postgres -U "$${POSTGRES_USER:-postgres}" -d "$${POSTGRES_DB:-bbs}" -Fc -f "/backups/rhex-$$(date +%Y%m%d-%H%M%S).dump"
+      DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/bbs?schema=public"
+      REDIS_URL: "redis://redis:6379"
+      SESSION_SECRET: "${SESSION_SECRET:-change-me-to-a-random-string-at-least-32-chars}"
+      CAPTCHA_SECRET_KEY: "${CAPTCHA_SECRET_KEY:-change-me-to-a-random-string-at-least-32-chars}"
+      SEED_ADMIN_USERNAME: "${SEED_ADMIN_USERNAME:-admin}"
+      SEED_ADMIN_PASSWORD: "${SEED_ADMIN_PASSWORD:-ChangeMe_123456}"
+      SEED_ADMIN_EMAIL: "${SEED_ADMIN_EMAIL:-admin@example.com}"
+      SEED_ADMIN_NICKNAME: "${SEED_ADMIN_NICKNAME:-管理员}"
 
   web:
-    <<: *app-service
+    build: .
     restart: unless-stopped
-    stop_grace_period: 30s
-    environment:
-      <<: *app-environment
-      HOSTNAME: ${HOSTNAME:-0.0.0.0}
-      PORT: ${PORT:-3000}
+    command: web
+    ports:
+      - "${PORT:-3000}:3000"
     depends_on:
       postgres:
         condition: service_healthy
-        restart: true
       redis:
         condition: service_healthy
-        restart: true
       setup:
         condition: service_completed_successfully
-    ports:
-      - "${PORT:-3000}:${PORT:-3000}"
-    command: ["pnpm", "run", "start"]
+    environment:
+      DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/bbs?schema=public"
+      REDIS_URL: "redis://redis:6379"
+      REDIS_KEY_PREFIX: "rhex"
+      SESSION_SECRET: "${SESSION_SECRET:-change-me-to-a-random-string-at-least-32-chars}"
+      CAPTCHA_SECRET_KEY: "${CAPTCHA_SECRET_KEY:-change-me-to-a-random-string-at-least-32-chars}"
+      BACKGROUND_JOB_WEB_RUNTIME: "${BACKGROUND_JOB_WEB_RUNTIME:-worker-only}"
+    volumes:
+      - uploads:/app/uploads
 
   worker:
-    <<: *app-service
+    build: .
     restart: unless-stopped
-    stop_grace_period: 30s
-    environment:
-      <<: *app-environment
-      INTERNAL_REVALIDATION_ORIGIN: ${INTERNAL_REVALIDATION_ORIGIN:-http://web:${PORT:-3000}}
+    command: worker
     depends_on:
       postgres:
         condition: service_healthy
-        restart: true
       redis:
         condition: service_healthy
-        restart: true
       setup:
         condition: service_completed_successfully
-    command: ["pnpm", "run", "worker"]
+    environment:
+      DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/bbs?schema=public"
+      REDIS_URL: "redis://redis:6379"
+      REDIS_KEY_PREFIX: "rhex"
+      SESSION_SECRET: "${SESSION_SECRET:-change-me-to-a-random-string-at-least-32-chars}"
+      CAPTCHA_SECRET_KEY: "${CAPTCHA_SECRET_KEY:-change-me-to-a-random-string-at-least-32-chars}"
 
 volumes:
-  postgres_data:
-  redis_data:
+  pgdata:
+  redisdata:
+  uploads:
