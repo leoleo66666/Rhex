@@ -1,0 +1,13 @@
+var R=require("../../../../../../chunks/[turbopack]_runtime.js")("server/app/api/admin/apps/ai-reply/rate-limit/route.js")
+R.c("server/chunks/[root-of-the-server]__04etbu8._.js")
+R.c("server/chunks/src_0-jlol3._.js")
+R.c("server/chunks/_01l4m5w._.js")
+R.c("server/chunks/node_modules_next_dist_compiled_@opentelemetry_api_index_0uix5xn.js")
+R.c("server/chunks/[root-of-the-server]__0n8dqtr._.js")
+R.c("server/chunks/node_modules_zod_v3_external_0_2gmko.js")
+R.c("server/chunks/src_lib_shared_safe-integer_ts_10~8n-k._.js")
+R.c("server/chunks/node_modules_next_dist_12gp6q5._.js")
+R.c("server/chunks/node_modules_next_11synfn._.js")
+R.c("server/chunks/0zjb_server_app_api_admin_apps_ai-reply_rate-limit_route_actions_0tjq.9_.js")
+R.m(831824)
+module.exports=R.m(831824).exports

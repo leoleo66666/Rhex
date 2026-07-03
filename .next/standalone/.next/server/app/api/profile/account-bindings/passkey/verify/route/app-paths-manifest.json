@@ -1,0 +1,3 @@
+{
+  "/api/profile/account-bindings/passkey/verify/route": "app/api/profile/account-bindings/passkey/verify/route.js"
+}

@@ -1,0 +1,3 @@
+{
+  "/zones/[slug]/rss.xml/route": "app/zones/[slug]/rss.xml/route.js"
+}

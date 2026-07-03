@@ -1,0 +1,3 @@
+{
+  "/api/follows/toggle/route": "app/api/follows/toggle/route.js"
+}

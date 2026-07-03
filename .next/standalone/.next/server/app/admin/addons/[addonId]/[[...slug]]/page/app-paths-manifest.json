@@ -1,0 +1,3 @@
+{
+  "/admin/addons/[addonId]/[[...slug]]/page": "app/admin/addons/[addonId]/[[...slug]]/page.js"
+}

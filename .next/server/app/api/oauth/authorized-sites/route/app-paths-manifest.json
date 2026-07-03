@@ -1,0 +1,3 @@
+{
+  "/api/oauth/authorized-sites/route": "app/api/oauth/authorized-sites/route.js"
+}

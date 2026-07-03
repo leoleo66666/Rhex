@@ -1,0 +1,1 @@
+module.exports=[948848,a=>{"use strict";var b=a.i(106923);async function c(a){return await (0,b.findFounderAdminId)()===a}a.s(["isFounderAdmin",0,c])}];

@@ -1,0 +1,3 @@
+{
+  "/addons/[addonId]/[[...slug]]/page": "app/addons/[addonId]/[[...slug]]/page.js"
+}

@@ -1,0 +1,12 @@
+var R=require("./chunks/[turbopack]_runtime.js")("server/middleware.js")
+R.c("server/chunks/[root-of-the-server]__0eqqg.5._.js")
+R.c("server/chunks/src_0fvk17g._.js")
+R.c("server/chunks/src_lib_02eyjse._.js")
+R.c("server/chunks/node_modules_next_0a_uv3i._.js")
+R.c("server/chunks/_014ib5k._.js")
+R.c("server/chunks/src_lib_03z.wxn._.js")
+R.c("server/chunks/[root-of-the-server]__0e_hvt~._.js")
+R.c("server/chunks/node_modules_next_dist_0955q9p._.js")
+R.c("server/chunks/_11myx2b._.js")
+R.m(489997)
+module.exports=R.m(489997).exports

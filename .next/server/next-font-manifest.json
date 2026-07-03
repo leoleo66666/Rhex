@@ -1,0 +1,244 @@
+{
+  "app": {
+    "[project]/src/app/[...customPage]/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/_not-found/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/about/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/addons/[addonId]/[[...slug]]/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/admin/addons/[addonId]/[[...slug]]/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/admin/addons/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/admin/apps/[app]/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/admin/apps/ai-reply/moderation/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/admin/apps/ai-reply/rate-limit/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/admin/apps/ai-reply/summary/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/admin/apps/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/admin/apps/payment-gateway/alipay/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/admin/apps/payment-gateway/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/admin/apps/rss-harvest/applications/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/admin/apps/rss-harvest/entries/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/admin/apps/worker/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/admin/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/admin/settings/[[...segments]]/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/announcements/[...slug]/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/announcements/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/auth/complete/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/auth/passkey/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/badges/[code]/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/badges/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/boards/[slug]/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/collections/[id]/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/collections/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/faq/badge-system/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/faq/level-system/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/faq/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/faq/points-system/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/faq/post-heat/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/faq/red-packet-jackpot/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/faq/rss-guide/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/faq/social-system/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/faq/verification-system/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/feed/[slug]/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/following/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/forgot-password/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/funs/gobang/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/funs/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/funs/self-serve-ads/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/funs/self-serve-ads/purchase/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/funs/yinyang-contract/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/help/[[...slug]]/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/history/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/hot/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/hot/page/[page]/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/latest/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/latest/page/[page]/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/leaderboards/check-in/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/leaderboards/points/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/level/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/link/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/login/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/messages/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/new/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/new/page/[page]/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/notifications/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/oauth/authorize/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/payment/pay/[id]/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/posts/[slug]/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/prison/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/register/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/search/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/settings/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/tags/[slug]/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/tags/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/tasks/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/terms/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/topup/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/topup/result/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/universe/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/users/[username]/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/verifications/[slug]/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/vip/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/write/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ],
+    "[project]/src/app/zones/[slug]/page": [
+      "static/media/caa3a2e1cccd8315-s.p.09~u27dqhyhd6.woff2"
+    ]
+  },
+  "appUsingSizeAdjust": true,
+  "pages": {},
+  "pagesUsingSizeAdjust": false
+}

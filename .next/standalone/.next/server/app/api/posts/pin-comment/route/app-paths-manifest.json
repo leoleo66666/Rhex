@@ -1,0 +1,3 @@
+{
+  "/api/posts/pin-comment/route": "app/api/posts/pin-comment/route.js"
+}

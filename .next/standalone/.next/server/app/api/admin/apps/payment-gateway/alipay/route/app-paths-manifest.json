@@ -1,0 +1,3 @@
+{
+  "/api/admin/apps/payment-gateway/alipay/route": "app/api/admin/apps/payment-gateway/alipay/route.js"
+}

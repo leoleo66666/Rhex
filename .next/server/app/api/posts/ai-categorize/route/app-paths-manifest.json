@@ -1,0 +1,3 @@
+{
+  "/api/posts/ai-categorize/route": "app/api/posts/ai-categorize/route.js"
+}

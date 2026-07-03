@@ -1,0 +1,3 @@
+{
+  "/oauth/authorize/confirm/route": "app/oauth/authorize/confirm/route.js"
+}

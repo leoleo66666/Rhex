@@ -1,0 +1,3 @@
+{
+  "/boards/[slug]/rss.xml/route": "app/boards/[slug]/rss.xml/route.js"
+}

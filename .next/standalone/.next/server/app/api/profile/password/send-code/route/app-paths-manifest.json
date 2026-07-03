@@ -1,0 +1,3 @@
+{
+  "/api/profile/password/send-code/route": "app/api/profile/password/send-code/route.js"
+}

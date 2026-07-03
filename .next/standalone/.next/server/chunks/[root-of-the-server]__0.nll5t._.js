@@ -1,0 +1,37 @@
+module.exports=[352440,140897,e=>{"use strict";let r={EMAIL:"EMAIL",PHONE:"PHONE"},t=new Set(Object.values(r));e.s(["VerificationChannel",0,r,"isVerificationChannel",0,function(e){return t.has(e)}],352440);var s=e.i(254799),n=e.i(945791),i=e.i(876974);let a="register",o=`
+local activeKey = KEYS[1]
+local recentKey = KEYS[2]
+local nowMs = tonumber(ARGV[1])
+local inputCodeHash = ARGV[2]
+local recentTtlSeconds = tonumber(ARGV[3])
+
+if redis.call("exists", activeKey) == 0 then
+  return {"missing"}
+end
+
+local record = redis.call("hmget", activeKey, "codeHash", "attempts", "maxAttempts", "expiresAtMs")
+local storedCodeHash = record[1]
+local attempts = tonumber(record[2] or "0")
+local maxAttempts = tonumber(record[3] or "0")
+local expiresAtMs = tonumber(record[4] or "0")
+
+if expiresAtMs < nowMs then
+  return {"expired"}
+end
+
+if attempts >= maxAttempts then
+  return {"too_many"}
+end
+
+local nextAttempts = attempts + 1
+
+if storedCodeHash ~= inputCodeHash then
+  redis.call("hset", activeKey, "attempts", tostring(nextAttempts))
+  return {"mismatch", tostring(nextAttempts)}
+end
+
+redis.call("del", activeKey)
+redis.call("set", recentKey, tostring(nowMs), "EX", recentTtlSeconds)
+
+return {"ok", tostring(nextAttempts), tostring(nowMs)}
+`;function l(e){return(0,s.createHash)("sha256").update(e).digest("hex")}function u(e,t){let s=t.trim();return e===r.EMAIL?s.toLowerCase():s}function c(e,r,t){return l([e,r,t].join(":"))}function m(e,r,t){return(0,i.createRedisKey)("verification-code","active",c(e,r,t))}async function d(e){let r=u(e.channel,e.target),t=e.purpose??a,n=new Date,o=new Date(n.getTime()+6e5),c=String((0,s.randomInt)(1e5,1e6)),d=l(c),h=m(e.channel,r,t),_=(0,i.getRedis)();return await _.multi().del(h).hset(h,"codeHash",d,"attempts","0","maxAttempts",String(5),"expiresAtMs",String(o.getTime()),"channel",e.channel,"target",r,"purpose",t,"sentByIp",e.ip??"","userAgent",e.userAgent??"","userId",e.userId?String(e.userId):"","createdAtMs",String(n.getTime())).expire(h,1800).exec(),{expiresAt:o.toISOString(),code:c}}async function h(e){var r,t;let s=u(e.channel,e.target),d=e.purpose??a,h=(0,i.getRedis)(),_=Array.isArray(t=await h.eval(o,2,m(e.channel,s,d),(r=e.channel,(0,i.createRedisKey)("verification-code","verified",c(r,s,d))),String(Date.now()),l(e.code.trim()),String(86400)))?t.map(e=>null==e?"":String(e)):[String(t)],p=_[0];if("missing"===p)throw new n.PublicRouteError("请先获取验证码");if("expired"===p)throw new n.PublicRouteError("验证码已过期，请重新获取");if("too_many"===p)throw new n.PublicRouteError("验证码尝试次数过多，请重新获取");if("mismatch"===p)throw new n.PublicRouteError("验证码错误");if("ok"!==p)throw new n.PublicRouteError("验证码校验失败，请稍后重试");return{consumedAt:new Date(Number(_[2]??Date.now()))}}e.s(["sendVerificationCode",0,d,"verifyCode",0,h],140897)},107485,e=>{"use strict";var r=e.i(924924),t=e.i(252027),s=e.i(202394),n=e.i(636940),i=e.i(944394),a=e.i(352440),o=e.i(82765),l=e.i(140897);let u="password_change",c="security.login-ip-change-email-alert";function m(e){return"string"==typeof e?e.trim():""}async function d(e){return r.prisma.user.findUnique({where:{id:e},select:{id:!0,username:!0,nickname:!0,email:!0,emailVerifiedAt:!0,status:!0}})}async function h(e){await (0,n.canSendBusinessEmail)("passwordChangeVerification")||(0,t.apiError)(400,"当前站点未配置邮件发送能力或已关闭修改密码验证码邮件，暂不可通过邮箱验证修改密码");let r=await d(e.userId);r||(0,t.apiError)(404,"用户不存在"),"BANNED"===r.status&&(0,t.apiError)(403,"当前账号状态不可执行该操作"),"INACTIVE"===r.status&&(0,t.apiError)(403,"当前账号状态不可执行该操作"),r.email&&r.emailVerifiedAt||(0,t.apiError)(400,"当前账号尚未绑定并验证邮箱，暂无法通过邮箱验证修改密码");let s=await (0,l.sendVerificationCode)({channel:a.VerificationChannel.EMAIL,target:r.email,ip:e.ip,userAgent:e.userAgent,userId:r.id,purpose:u});return await (0,n.sendPasswordChangeVerificationEmail)({to:r.email,code:s.code,username:r.username}),{expiresAt:s.expiresAt,email:r.email}}async function _(e){let r=await d(e.userId);return r||(0,t.apiError)(404,"用户不存在"),r.email&&r.emailVerifiedAt||(0,t.apiError)(400,"当前账号尚未绑定并验证邮箱，暂无法通过邮箱验证修改密码"),await (0,l.verifyCode)({channel:a.VerificationChannel.EMAIL,target:r.email,code:e.code,purpose:u}),r}async function p(e){let r=m(e.previousIp),t=m(e.currentIp);if(!r||!t||r===t)return;let n=await (0,o.getServerSiteSettings)();n.loginIpChangeEmailAlertEnabled&&(0,i.isEmailBusinessSwitchEnabled)(n.emailBusinessSwitches,"loginIpChangeAlert")&&await (0,s.enqueueBackgroundJob)(c,{userId:e.userId,previousIp:r,currentIp:t,userAgent:e.userAgent??null,loginAt:new Date().toISOString()})}(0,s.registerBackgroundJobHandler)(c,async e=>{var r;let t=m(e.previousIp),s=m(e.currentIp);if(!t||!s||t===s)return;let a=await (0,o.getServerSiteSettings)();if(!a.loginIpChangeEmailAlertEnabled||!(0,i.isEmailBusinessSwitchEnabled)(a.emailBusinessSwitches,"loginIpChangeAlert")||!(a.smtpEnabled&&a.smtpHost&&a.smtpPort&&a.smtpUser&&a.smtpPass&&a.smtpFrom))return;let l=await d(e.userId);if(l?.email&&l.emailVerifiedAt){let i;await (0,n.deliverLoginIpChangeAlertEmail)({to:l.email,username:l.username,displayName:l.nickname,previousIp:t,currentIp:s,loginAt:Number.isNaN((i=new Date(r=e.loginAt)).getTime())?r:i.toLocaleString("zh-CN",{hour12:!1}),userAgent:e.userAgent})}}),e.s(["getPasswordChangeVerificationPurpose",0,function(){return u},"maybeEnqueueLoginIpChangeAlert",0,p,"sendPasswordChangeVerificationCode",0,h,"verifyPasswordChangeVerificationCode",0,_])},924507,e=>{e.v(r=>Promise.all(["server/chunks/[root-of-the-server]__0_x97qb._.js","server/chunks/node_modules_next_124cnn1._.js","server/chunks/[root-of-the-server]__0-ki1an._.js","server/chunks/_09a_jj8._.js"].map(r=>e.l(r))).then(()=>r(498345)))},6878,e=>{e.v(r=>Promise.all(["server/chunks/node_modules_next_124cnn1._.js"].map(r=>e.l(r))).then(()=>r(493458)))},346162,e=>{e.v(r=>Promise.all(["server/chunks/[root-of-the-server]__0y7jzq7._.js","server/chunks/node_modules_next_124cnn1._.js","server/chunks/[root-of-the-server]__0-ki1an._.js","server/chunks/_04.3s_n._.js"].map(r=>e.l(r))).then(()=>r(847749)))},694330,e=>{e.v(r=>Promise.all(["server/chunks/[root-of-the-server]__0dlol7_._.js","server/chunks/node_modules_next_124cnn1._.js","server/chunks/[root-of-the-server]__077ouf0._.js","server/chunks/_02pgu64._.js"].map(r=>e.l(r))).then(()=>r(389810)))},411488,e=>{e.v(r=>Promise.all(["server/chunks/[root-of-the-server]__0oq14z_._.js","server/chunks/node_modules_sax_lib_sax_0.lpsth.js","server/chunks/node_modules_@alicloud_dysmsapi20170525_dist_0e9pn04._.js","server/chunks/node_modules_0ts.09g._.js"].map(r=>e.l(r))).then(()=>r(943809)))},879220,e=>{e.v(r=>Promise.all(["server/chunks/[root-of-the-server]__0oq14z_._.js","server/chunks/node_modules_0ts.09g._.js","server/chunks/node_modules_sax_lib_sax_0.lpsth.js"].map(r=>e.l(r))).then(()=>r(786001)))},450331,e=>{e.v(r=>Promise.all(["server/chunks/[root-of-the-server]__0n.biq.._.js","server/chunks/node_modules_0ghqfck._.js","server/chunks/node_modules_0hv83e7._.js"].map(r=>e.l(r))).then(()=>r(58270)))},260815,e=>{e.v(r=>Promise.all(["server/chunks/[externals]_fs_promises_022gqgn._.js"].map(r=>e.l(r))).then(()=>r(924868)))},75804,e=>{e.v(r=>Promise.all(["server/chunks/[root-of-the-server]__02tse25._.js","server/chunks/node_modules_next_124cnn1._.js","server/chunks/[root-of-the-server]__0-ki1an._.js","server/chunks/_0bh7wmb._.js"].map(r=>e.l(r))).then(()=>r(448147)))}];

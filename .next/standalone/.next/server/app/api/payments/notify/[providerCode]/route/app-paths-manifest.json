@@ -1,0 +1,3 @@
+{
+  "/api/payments/notify/[providerCode]/route": "app/api/payments/notify/[providerCode]/route.js"
+}

@@ -1,0 +1,3 @@
+{
+  "/api/admin/posts/bulk/route": "app/api/admin/posts/bulk/route.js"
+}

@@ -1,0 +1,3 @@
+{
+  "/payment/pay/[id]/confirm/route": "app/payment/pay/[id]/confirm/route.js"
+}

@@ -1,7 +1,9 @@
 node_modules
-.next
+
+
 out
 dist
+.next/cache/
 .env
 .pnpm-store
 .env.local

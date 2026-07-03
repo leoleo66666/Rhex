@@ -1,0 +1,3 @@
+{
+  "/api/posts/favorite/route": "app/api/posts/favorite/route.js"
+}

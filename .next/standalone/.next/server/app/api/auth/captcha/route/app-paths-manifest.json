@@ -1,0 +1,3 @@
+{
+  "/api/auth/captcha/route": "app/api/auth/captcha/route.js"
+}

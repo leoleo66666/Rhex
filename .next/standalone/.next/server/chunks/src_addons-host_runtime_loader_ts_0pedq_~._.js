@@ -1,0 +1,1 @@
+module.exports=[498345,d=>{"use strict";var e=d.i(981860);d.i(694685),d.i(583219);var n=d.i(478430);d.s(["buildAddonExecutionContext",()=>n.buildAddonExecutionContext,"clearAddonsRuntimeCache",()=>e.clearAddonsRuntimeCache,"findLoadedAddonByIdFresh",()=>e.findLoadedAddonByIdFresh])}];

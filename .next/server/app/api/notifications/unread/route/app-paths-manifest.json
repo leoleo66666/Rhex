@@ -1,0 +1,3 @@
+{
+  "/api/notifications/unread/route": "app/api/notifications/unread/route.js"
+}

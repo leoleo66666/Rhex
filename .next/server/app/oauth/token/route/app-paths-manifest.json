@@ -1,0 +1,3 @@
+{
+  "/oauth/token/route": "app/oauth/token/route.js"
+}
