@@ -1,1 +1,0 @@
-module.exports=[25790,(a,b,c)=>{}];

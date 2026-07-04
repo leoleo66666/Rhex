@@ -1,1 +1,0 @@
-module.exports=[924868,(s,e,r)=>{e.exports=s.x("fs/promises",()=>require("fs/promises"))}];

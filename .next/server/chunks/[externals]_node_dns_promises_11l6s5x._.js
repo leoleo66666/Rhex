@@ -1,1 +1,0 @@
-module.exports=[300794,(e,s,o)=>{s.exports=e.x("node:dns/promises",()=>require("node:dns/promises"))}];

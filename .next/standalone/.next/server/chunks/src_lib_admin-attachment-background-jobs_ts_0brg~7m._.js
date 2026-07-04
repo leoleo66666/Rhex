@@ -1,1 +1,0 @@
-module.exports=[514984,a=>{"use strict";var e=a.i(202394),n=a.i(541198);(0,e.registerBackgroundJobHandler)(n.ATTACHMENT_REFERENCE_SCAN_JOB_NAME,async a=>{await (0,n.runAttachmentReferenceScanJob)(a.scanJobId)}),(0,e.registerBackgroundJobHandler)(n.ATTACHMENT_CLEANUP_JOB_NAME,async a=>{await (0,n.runAttachmentCleanupJob)(a.cleanupJobId)}),a.s([])}];
