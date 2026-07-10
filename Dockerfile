@@ -67,13 +67,7 @@ COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/scripts ./scripts
 COPY --from=builder /app/tsconfig.json ./tsconfig.json
 
-# Copy tsx for worker
-COPY --from=builder /app/node_modules/.pnpm/tsx@* /tmp/tsx/
-RUN cp -r /tmp/tsx/*/node_modules/tsx ./node_modules/.pnpm/tsx 2>/dev/null; \
-    mkdir -p ./node_modules/.pnpm/get-tsconfig@* 2>/dev/null; \
-    mkdir -p ./node_modules/.pnpm/@esbuild+* 2>/dev/null; \
-    true
-# tsx is a devDependency but needed for worker; install it
+# Install tsx globally (needed for setup/worker scripts)
 RUN npm install -g tsx
 
 USER nextjs

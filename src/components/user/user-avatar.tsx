@@ -14,6 +14,8 @@ interface UserAvatarProps {
   size?: "xs" | "sm" | "md" | "lg" | "xl" | "2xl"
   isVip?: boolean
   vipLevel?: number | null
+  rounded?: string
+  className?: string
 }
 
 const sizeClasses = {
@@ -81,7 +83,7 @@ function AvatarImage({
   )
 }
 
-export function UserAvatar({ name, avatarPath, size = "md", isVip = false, vipLevel }: UserAvatarProps) {
+export function UserAvatar({ name, avatarPath, size = "md", isVip = false, vipLevel, rounded, className }: UserAvatarProps) {
   const hasCustomAvatar = Boolean(avatarPath?.trim())
   const avatarUrl = getAvatarUrl(avatarPath, name)
   const fallback = getAvatarFallback(name)
@@ -92,8 +94,8 @@ export function UserAvatar({ name, avatarPath, size = "md", isVip = false, vipLe
   const showTextFallback = !hasCustomAvatar || imageFailed
 
   return (
-    <div className={cn("group/avatar relative aspect-square shrink-0", sizeClasses[size])}>
-      <div className="relative h-full w-full overflow-hidden rounded-xl border border-border bg-card transition-[transform,box-shadow,border-color] duration-200 ease-out group-hover/avatar:-translate-y-0.5 group-hover/avatar:border-foreground/15 group-hover/avatar:shadow-[0_10px_24px_rgba(15,23,42,0.12)] dark:group-hover/avatar:shadow-[0_10px_28px_rgba(0,0,0,0.32)]" style={{ backgroundColor: colors.background, color: colors.foreground }}>
+    <div className={cn("group/avatar relative aspect-square shrink-0", sizeClasses[size], className)}>
+      <div className={cn("relative h-full w-full overflow-hidden border border-border bg-card transition-[transform,box-shadow,border-color] duration-200 ease-out group-hover/avatar:-translate-y-0.5 group-hover/avatar:border-foreground/15 group-hover/avatar:shadow-[0_10px_24px_rgba(15,23,42,0.12)] dark:group-hover/avatar:shadow-[0_10px_28px_rgba(0,0,0,0.32)]", rounded || "rounded-xl")} style={{ backgroundColor: colors.background, color: colors.foreground }}>
         {showTextFallback ? (
           <div className={cn("flex h-full w-full items-center justify-center font-semibold tracking-wide transition-transform duration-300 ease-out group-hover/avatar:scale-[1.03]", fallbackSizeClasses[size])}>
             {fallback}

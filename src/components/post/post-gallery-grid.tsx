@@ -154,7 +154,7 @@ function PostGalleryCard({
         </div>
       </PostListLink>
 
-      <div className="space-y-2.5 p-3">
+      <div className="space-y-2.5 p-3 pb-1.5">
         <PostListLink href={postPath} visitedPath={postPath} dimWhenRead className="block" title={item.title}>
           <h2 className="line-clamp-2 text-sm font-bold leading-snug">{item.title}</h2>
         </PostListLink>
@@ -167,6 +167,8 @@ function PostGalleryCard({
               size="xs"
               isVip={item.authorIsVip}
               vipLevel={item.authorVipLevel}
+              rounded="rounded-full"
+              className="size-6"
             />
             <span className="truncate text-xs text-muted-foreground hover:underline">{item.authorName}</span>
           </Link>
@@ -175,7 +177,7 @@ function PostGalleryCard({
             href={`${postPath}#comments`}
             title={`${item.commentCount} 回复`}
             className="inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium tabular-nums"
-            style={{ backgroundColor: `${item.commentAccentColor}14`, color: item.commentAccentColor }}
+            style={{ color: item.commentAccentColor }}
           >
             <MessageCircle className="h-3 w-3" />
             {formatCompactNumber(item.commentCount)}
